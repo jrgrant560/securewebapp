@@ -16,7 +16,7 @@ public class MySQLUserDetailsService implements UserDetailsService {
 	private UserRepository userRepository; //connection to the db
 
 	@Autowired
-	private PasswordEncoder passwordEncoder; //encrypts the password before saving it to the database
+	private PasswordEncoder passwordEncoder; //password encryption methods
 
     //loads a user by username
 	@Override
@@ -30,7 +30,7 @@ public class MySQLUserDetailsService implements UserDetailsService {
 
     //saves a new user to the db; encrypts the given password before saving to the database
 	public UserDetails Save(User newUser) {
-		newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+		newUser.setPassword(passwordEncoder.encode(newUser.getPassword())); //a password has been set already during new user registration; this step overrides that password with an encoded version of that password
 		User savedUser = userRepository.save(newUser);
 		return new org.springframework.security.core.userdetails.User(savedUser.getUsername(), savedUser.getPassword(), getAuthorities());
 	}
