@@ -19,7 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig {
 
 	@Autowired
-	private MySQLUserDetailsService mySQLUserDetailsService;
+	private MySQLUserDetailsService mySQLUserDetailsService; //PROBLEM: circular dependency: the service also depends on this config to encode its passwords when saving users
+
+	// @Autowired
+    // public WebSecurityConfig(MySQLUserDetailsService mySQLUserDetailsService) {
+    //     this.mySQLUserDetailsService = mySQLUserDetailsService;
+    // }
 
 	// password encoder that uses bcrypt
 	@Bean
